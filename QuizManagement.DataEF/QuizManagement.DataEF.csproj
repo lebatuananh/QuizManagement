@@ -19,6 +19,7 @@
   <ItemGroup>
     <ProjectReference Include="..\QuizManagement.Data\QuizManagement.Data.csproj" />
     <ProjectReference Include="..\QuizManagement.Infrastructure\QuizManagement.Infrastructure.csproj" />
+    <ProjectReference Include="..\QuizManagement.Utilities\QuizManagement.Utilities.csproj" />
   </ItemGroup>
 
 </Project>
