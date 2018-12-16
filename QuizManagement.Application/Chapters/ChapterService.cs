@@ -4,6 +4,7 @@ using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using QuizManagement.Application.Chapters.ViewModel;
 using QuizManagement.Data.Entities.Quiz;
+using QuizManagement.Data.Enum;
 using QuizManagement.Infrastructure.Interfaces;
 using QuizManagement.Utilities.Paging;
 
@@ -44,7 +45,7 @@ namespace QuizManagement.Application.Chapters
 
         public PagedResult<ChapterViewModel> GetAllPaging(string keyword, int page, int pageSize)
         {
-            var query = _chapterRepository.FindAll();
+            var query = _chapterRepository.FindAll(x => x.Status == Status.Active);
             if (!string.IsNullOrEmpty(keyword))
                 query = query.Where(x => x.Name.Contains(keyword));
 

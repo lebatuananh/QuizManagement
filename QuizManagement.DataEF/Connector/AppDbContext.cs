@@ -44,6 +44,8 @@ namespace QuizManagement.DataEF.Connector
 
         public DbSet<SubjectChapterDetail> SubjectChapterDetails { get; set; }
 
+        public DbSet<QuestionExamDetail> QuestionExamDetails { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             #region Identity Config

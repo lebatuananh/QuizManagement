@@ -5,6 +5,9 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using QuizManagement.Application.Functions;
 using QuizManagement.Application.Functions.ViewModel;
+using QuizManagement.Application.Permissions.ViewModel;
+using QuizManagement.Application.Roles;
+using QuizManagement.Application.Roles.ViewModel;
 using QuizManagement.Utilities.Constants;
 using QuizManagement.WebApplication.Extensions;
 
@@ -12,11 +15,13 @@ namespace QuizManagement.WebApplication.Areas.Admin.Components
 {
     public class SideBarViewComponent : ViewComponent
     {
-        private IFunctionService _functionService;
+        private readonly IFunctionService _functionService;
+        private readonly IRoleService _roleService;
 
-        public SideBarViewComponent(IFunctionService functionService)
+        public SideBarViewComponent(IFunctionService functionService,IRoleService roleService)
         {
             _functionService = functionService;
+            _roleService = roleService;
         }
 
         public async Task<IViewComponentResult> InvokeAsync()
@@ -29,11 +34,30 @@ namespace QuizManagement.WebApplication.Areas.Admin.Components
             }
             else
             {
-                //TODO: Get by permission
+                var appRoles = new List<AppRoleViewModel>();
+                var permissions = new List<PermissionViewModel>();
                 functions = new List<FunctionViewModel>();
+                var splitRoles = roles.Split(';');
+                foreach (var item in splitRoles)
+                {
+                    var functionByRole = await _roleService.GetByName(item);
+                    appRoles.Add(functionByRole);
+                }
+
+                foreach (var item in appRoles)
+                {
+                    var query = _roleService.GetListFunctionMenuWithRole(item.Id.Value);
+                    permissions.AddRange(query);
+                }
+
+                foreach (var item in permissions)
+                {
+                    var query = _functionService.GetById(item.FunctionId);
+                    functions.Add(query);
+                }
             }
 
-            return View(functions);
+            return await Task.Run(() => View(functions));
         }
     }
 }

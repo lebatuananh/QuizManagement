@@ -18,6 +18,7 @@ using Newtonsoft.Json.Serialization;
 using QuizManagement.Application.Chapters;
 using QuizManagement.Application.Functions;
 using QuizManagement.Application.Roles;
+using QuizManagement.Application.Subjects;
 using QuizManagement.Application.Users;
 using QuizManagement.Data.Entities.System;
 using QuizManagement.DataEF.Abstract;
@@ -100,6 +101,7 @@ namespace QuizManagement.WebApplication
 
             //Service
             services.AddTransient<IChapterService, ChapterService>();
+            services.AddTransient<ISubjectService, SubjectService>();
 
             services.AddTransient<IFunctionService, FunctionService>();
             services.AddTransient<IUserService, UserService>();

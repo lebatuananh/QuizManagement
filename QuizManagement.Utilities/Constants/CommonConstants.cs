@@ -15,5 +15,7 @@ namespace QuizManagement.Utilities.Constants
         {
             public const string Roles = "Roles";
         }
+        
+        public const string DefaultPassword = "123456";
     }
 }

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using QuizManagement.DataEF.Connector;
 
 namespace QuizManagement.DataEF.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181216094141_Initial_DB_v2")]
+    partial class Initial_DB_v2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -106,8 +108,6 @@ namespace QuizManagement.DataEF.Migrations
 
                     b.Property<DateTime>("DateModified");
 
-                    b.Property<string>("Description");
-
                     b.Property<string>("Name");
 
                     b.Property<int>("Status");
@@ -152,6 +152,8 @@ namespace QuizManagement.DataEF.Migrations
 
                     b.Property<DateTime>("DateModified");
 
+                    b.Property<int>("ExamId");
+
                     b.Property<string>("Option1");
 
                     b.Property<string>("Option2");
@@ -170,28 +172,11 @@ namespace QuizManagement.DataEF.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ExamId");
+
                     b.HasIndex("SubjectChapterDetailId");
 
                     b.ToTable("Questions");
-                });
-
-            modelBuilder.Entity("QuizManagement.Data.Entities.Quiz.QuestionExamDetail", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("ExamId");
-
-                    b.Property<int>("QuestionId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ExamId");
-
-                    b.HasIndex("QuestionId");
-
-                    b.ToTable("QuestionExamDetails");
                 });
 
             modelBuilder.Entity("QuizManagement.Data.Entities.Quiz.Subject", b =>
@@ -203,8 +188,6 @@ namespace QuizManagement.DataEF.Migrations
                     b.Property<DateTime>("DateCreated");
 
                     b.Property<DateTime>("DateModified");
-
-                    b.Property<string>("Description");
 
                     b.Property<string>("Name");
 
@@ -438,22 +421,14 @@ namespace QuizManagement.DataEF.Migrations
 
             modelBuilder.Entity("QuizManagement.Data.Entities.Quiz.Question", b =>
                 {
-                    b.HasOne("QuizManagement.Data.Entities.Quiz.SubjectChapterDetail", "SubjectChapterDetail")
-                        .WithMany()
-                        .HasForeignKey("SubjectChapterDetailId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("QuizManagement.Data.Entities.Quiz.QuestionExamDetail", b =>
-                {
                     b.HasOne("QuizManagement.Data.Entities.Quiz.Exam", "Exam")
                         .WithMany()
                         .HasForeignKey("ExamId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("QuizManagement.Data.Entities.Quiz.Question", "Question")
+                    b.HasOne("QuizManagement.Data.Entities.Quiz.SubjectChapterDetail", "SubjectChapterDetail")
                         .WithMany()
-                        .HasForeignKey("QuestionId")
+                        .HasForeignKey("SubjectChapterDetailId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

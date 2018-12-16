@@ -23,7 +23,6 @@
     <link href="~/admin-side/css/custom.css" rel="stylesheet"/>
     @RenderSection("Styles", required: false)
 </head>
-
 <body class="nav-md">
 <div class="container body">
     <div class="main_container">
@@ -34,9 +33,7 @@
                         <i class="fa fa-paw"></i> <span>Gentelella Alela!</span>
                     </a>
                 </div>
-
                 <div class="clearfix"></div>
-
                 <!-- menu profile quick info -->
                 <div class="profile clearfix">
                     <div class="profile_pic">
@@ -48,9 +45,7 @@
                     </div>
                 </div>
                 <!-- /menu profile quick info -->
-
                 <br/>
-
                 <!-- sidebar menu -->
                 @await Component.InvokeAsync("SideBar")
                 <!-- /sidebar menu -->
@@ -82,81 +77,20 @@
                             <i class="fa fa-bars"></i>
                         </a>
                     </div>
-
                     <ul class="nav navbar-nav navbar-right">
                         <li class="">
-                            @await Html.PartialAsync("_LoginPartial")
-                        </li>
-
-                        <li role="presentation" class="dropdown">
-                            <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
-                                <i class="fa fa-envelope-o"></i>
-                                <span class="badge bg-green">6</span>
+                            <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                <img src="@User.GetSpecificClaim("Avatar")" alt="">@User.GetSpecificClaim("FullName")
+                                <span class=" fa fa-angle-down"></span>
                             </a>
-                            <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
+                            <ul class="dropdown-menu dropdown-usermenu pull-right">
                                 <li>
-                                    <a>
-                                        <span class="image">
-                                            <img src="/admin-side/images/img.jpg" alt="Profile Image"/>
-                                        </span>
-                                        <span>
-                                            <span>John Smith</span>
-                                            <span class="time">3 mins ago</span>
-                                        </span>
-                                        <span class="message">
-                                            Film festivals used to be do-or-die moments for movie makers. They were where...
-                                        </span>
-                                    </a>
+                                    <a href="/Admin/Account/Index"> Profile</a>
                                 </li>
                                 <li>
-                                    <a>
-                                        <span class="image">
-                                            <img src="/admin-side/images/img.jpg" alt="Profile Image"/>
-                                        </span>
-                                        <span>
-                                            <span>John Smith</span>
-                                            <span class="time">3 mins ago</span>
-                                        </span>
-                                        <span class="message">
-                                            Film festivals used to be do-or-die moments for movie makers. They were where...
-                                        </span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a>
-                                        <span class="image">
-                                            <img src="/admin-side/images/img.jpg" alt="Profile Image"/>
-                                        </span>
-                                        <span>
-                                            <span>John Smith</span>
-                                            <span class="time">3 mins ago</span>
-                                        </span>
-                                        <span class="message">
-                                            Film festivals used to be do-or-die moments for movie makers. They were where...
-                                        </span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a>
-                                        <span class="image">
-                                            <img src="/admin-side/images/img.jpg" alt="Profile Image"/>
-                                        </span>
-                                        <span>
-                                            <span>@User.GetSpecificClaim("FullName")</span>
-                                            <span class="time">3 mins ago</span>
-                                        </span>
-                                        <span class="message">
-                                            Film festivals used to be do-or-die moments for movie makers. They were where...
-                                        </span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <div class="text-center">
-                                        <a>
-                                            <strong>See All Alerts</strong>
-                                            <i class="fa fa-angle-right"></i>
-                                        </a>
-                                    </div>
+                                    <form action="/Admin/Account/Logout" method="post" id="logoutForm" class="navbar-right">
+                                        <button type="submit" class="btn btn-link navbar-btn navbar-link" style="color: #5A738E; margin-left: -7px;"><i class="fa fa-sign-out"></i> Log Out</button>
+                                    </form>
                                 </li>
                             </ul>
                         </li>
@@ -219,7 +153,22 @@
 <script src="~/lib/bootbox/bootbox.js"></script>
 
 
-<script src="~/app/shared/tedu.js"></script>
+<!--Jquery Pagination-->
+<script src="~/lib/twbs-pagination/jquery.twbsPagination.js"></script>
+<!--Jquery Validation-->
+<script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+<script src="~/lib/jquery-validation/dist/additional-methods.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.js"></script>
+<!--Ck Editor-->
+<script src="~/lib/ckeditor/ckeditor.js"></script>
+<!--Notify-->
+<script src="~/lib/notifyjs/dist/notify.js"></script>
+<script src="~/lib/notifyjs/dist/styles/metro/notify-metro.js"></script>
+<!--BootBox-->
+<script src="~/lib/bootbox/bootbox.js"></script>
+
+
+<script src="~/app/shared/core.js"></script>
 <!-- Custom Theme Scripts -->
 <script src="~/admin-side/js/custom.js"></script>
 @RenderSection("Scripts", required: false)

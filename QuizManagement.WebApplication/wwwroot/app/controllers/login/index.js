@@ -1,7 +1,7 @@
 var LoginController = function () {
     this.initialize = function () {
         registerEvents();
-    }
+    };
 
     var registerEvents = function () {
 
@@ -49,9 +49,9 @@ var LoginController = function () {
             url: '/Admin/Login/Authen',
             success: function (res) {
                 if (res.Success)
-                    window.location.href = '/Admin/Home/Index';
+                    window.location.href = core.getParamUrl('ReturnUrl') ||'/Admin/Home/Index';
                 else
-                    core.notify(res.Message, 'error');
+                    core.notify('Đăng nhập không thành công', 'error');
             }
         });
     }
