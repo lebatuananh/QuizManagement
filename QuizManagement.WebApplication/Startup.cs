@@ -16,6 +16,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Serialization;
 using QuizManagement.Application.Chapters;
+using QuizManagement.Application.Exams;
 using QuizManagement.Application.Functions;
 using QuizManagement.Application.Questions;
 using QuizManagement.Application.Roles;
@@ -104,6 +105,7 @@ namespace QuizManagement.WebApplication
             services.AddTransient<IChapterService, ChapterService>();
             services.AddTransient<ISubjectService, SubjectService>();
             services.AddTransient<IQuestionService, QuestionService>();
+            services.AddTransient<IExamService, ExamService>();
 
             services.AddTransient<IFunctionService, FunctionService>();
             services.AddTransient<IUserService, UserService>();

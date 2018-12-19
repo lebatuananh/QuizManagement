@@ -8,7 +8,7 @@ namespace QuizManagement.Application.Exams
     {
         void Create(ExamViewModel examViewModel);
         void Update(ExamViewModel examViewModel);
-        PagedResult<ExamViewModel> GetAllPaging(int? subjectId, string keyword, int pageIndex, int pageSize);
+        PagedResult<ExamViewModel> GetAllPaging(string keyword, int pageIndex, int pageSize);
         ExamViewModel GetById(int examId);
         QuestionExamDetailViewModel CreateDetail(QuestionExamDetailViewModel questionExamDetailViewModel);
         void DeleteDetail(int examId, int questionId);

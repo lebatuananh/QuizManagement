@@ -197,7 +197,7 @@ var ChapterController = function () {
                 console.log(status);
             }
         });
-    };
+    }
 
     function wrapPaging(recordCount, callBack, changePageSize) {
         var totalsize = Math.ceil(recordCount / core.configs.pageSize);

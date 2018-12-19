@@ -90,5 +90,12 @@ namespace QuizManagement.WebApplication.Areas.Admin.Controllers.Question
             var model = _questionService.GetById(id);
             return new OkObjectResult(model);
         }
+
+        [HttpGet]
+        public IActionResult GetAll()
+        {
+            var model = _questionService.GetAll();
+            return new OkObjectResult(model);
+        }
     }
 }
