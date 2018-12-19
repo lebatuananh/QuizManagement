@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace QuizManagement.DataEF.Migrations
 {
-    public partial class Initial_DB_v1 : Migration
+    public partial class Init_Db_v1 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -104,7 +104,9 @@ namespace QuizManagement.DataEF.Migrations
                     Avatar = table.Column<string>(nullable: true),
                     DateCreated = table.Column<DateTime>(nullable: false),
                     DateModified = table.Column<DateTime>(nullable: false),
-                    Status = table.Column<int>(nullable: false)
+                    Status = table.Column<int>(nullable: false),
+                    Gender = table.Column<bool>(nullable: false),
+                    Address = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -132,6 +134,7 @@ namespace QuizManagement.DataEF.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(nullable: true),
+                    Description = table.Column<string>(nullable: true),
                     DateCreated = table.Column<DateTime>(nullable: false),
                     DateModified = table.Column<DateTime>(nullable: false),
                     Status = table.Column<int>(nullable: false)
@@ -198,6 +201,7 @@ namespace QuizManagement.DataEF.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(nullable: true),
+                    Description = table.Column<string>(nullable: true),
                     DateCreated = table.Column<DateTime>(nullable: false),
                     DateModified = table.Column<DateTime>(nullable: false),
                     Status = table.Column<int>(nullable: false)
@@ -320,7 +324,6 @@ namespace QuizManagement.DataEF.Migrations
                     Option4 = table.Column<string>(nullable: true),
                     Answer = table.Column<string>(nullable: true),
                     ScoreQuestion = table.Column<int>(nullable: false),
-                    ExamId = table.Column<int>(nullable: false),
                     SubjectChapterDetailId = table.Column<int>(nullable: false),
                     DateCreated = table.Column<DateTime>(nullable: false),
                     DateModified = table.Column<DateTime>(nullable: false),
@@ -330,15 +333,35 @@ namespace QuizManagement.DataEF.Migrations
                 {
                     table.PrimaryKey("PK_Questions", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Questions_Exams_ExamId",
+                        name: "FK_Questions_SubjectChapterDetails_SubjectChapterDetailId",
+                        column: x => x.SubjectChapterDetailId,
+                        principalTable: "SubjectChapterDetails",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "QuestionExamDetails",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    QuestionId = table.Column<int>(nullable: false),
+                    ExamId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_QuestionExamDetails", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_QuestionExamDetails_Exams_ExamId",
                         column: x => x.ExamId,
                         principalTable: "Exams",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Questions_SubjectChapterDetails_SubjectChapterDetailId",
-                        column: x => x.SubjectChapterDetailId,
-                        principalTable: "SubjectChapterDetails",
+                        name: "FK_QuestionExamDetails_Questions_QuestionId",
+                        column: x => x.QuestionId,
+                        principalTable: "Questions",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -364,9 +387,14 @@ namespace QuizManagement.DataEF.Migrations
                 column: "RoleId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Questions_ExamId",
-                table: "Questions",
+                name: "IX_QuestionExamDetails_ExamId",
+                table: "QuestionExamDetails",
                 column: "ExamId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_QuestionExamDetails_QuestionId",
+                table: "QuestionExamDetails",
+                column: "QuestionId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Questions_SubjectChapterDetailId",
@@ -411,7 +439,7 @@ namespace QuizManagement.DataEF.Migrations
                 name: "Permissions");
 
             migrationBuilder.DropTable(
-                name: "Questions");
+                name: "QuestionExamDetails");
 
             migrationBuilder.DropTable(
                 name: "Announcements");
@@ -426,10 +454,13 @@ namespace QuizManagement.DataEF.Migrations
                 name: "Exams");
 
             migrationBuilder.DropTable(
-                name: "SubjectChapterDetails");
+                name: "Questions");
 
             migrationBuilder.DropTable(
                 name: "AppUsers");
+
+            migrationBuilder.DropTable(
+                name: "SubjectChapterDetails");
 
             migrationBuilder.DropTable(
                 name: "Chapters");

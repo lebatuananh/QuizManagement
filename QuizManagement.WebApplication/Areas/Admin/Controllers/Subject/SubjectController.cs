@@ -8,7 +8,7 @@ using QuizManagement.WebApplication.Areas.Admin.Controllers.Base;
 
 namespace QuizManagement.WebApplication.Areas.Admin.Controllers.Subject
 {
-    public class SubjectController:BaseController
+    public class SubjectController : BaseController
     {
         private readonly ISubjectService _subjectService;
 
@@ -16,7 +16,7 @@ namespace QuizManagement.WebApplication.Areas.Admin.Controllers.Subject
         {
             _subjectService = subjectService;
         }
-        
+
         public IActionResult Index()
         {
             return View();
@@ -67,6 +67,13 @@ namespace QuizManagement.WebApplication.Areas.Admin.Controllers.Subject
             _subjectService.Delete(id);
             _subjectService.SaveChanges();
             return new OkObjectResult(id);
+        }
+
+        [HttpGet]
+        public IActionResult GetAll()
+        {
+            var model = _subjectService.GetAll();
+            return new OkObjectResult(model);
         }
     }
 }

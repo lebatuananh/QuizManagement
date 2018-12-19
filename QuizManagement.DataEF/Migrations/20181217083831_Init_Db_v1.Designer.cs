@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using QuizManagement.DataEF.Connector;
 
 namespace QuizManagement.DataEF.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181217083831_Init_Db_v1")]
+    partial class Init_Db_v1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -148,8 +150,6 @@ namespace QuizManagement.DataEF.Migrations
 
                     b.Property<string>("Answer");
 
-                    b.Property<int>("ChapterId");
-
                     b.Property<DateTime>("DateCreated");
 
                     b.Property<DateTime>("DateModified");
@@ -168,13 +168,11 @@ namespace QuizManagement.DataEF.Migrations
 
                     b.Property<int>("Status");
 
-                    b.Property<int>("SubjectId");
+                    b.Property<int>("SubjectChapterDetailId");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ChapterId");
-
-                    b.HasIndex("SubjectId");
+                    b.HasIndex("SubjectChapterDetailId");
 
                     b.ToTable("Questions");
                 });
@@ -217,6 +215,25 @@ namespace QuizManagement.DataEF.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Subjects");
+                });
+
+            modelBuilder.Entity("QuizManagement.Data.Entities.Quiz.SubjectChapterDetail", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("ChapterId");
+
+                    b.Property<int>("SubjectId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ChapterId");
+
+                    b.HasIndex("SubjectId");
+
+                    b.ToTable("SubjectChapterDetails");
                 });
 
             modelBuilder.Entity("QuizManagement.Data.Entities.System.Announcement", b =>
@@ -423,14 +440,9 @@ namespace QuizManagement.DataEF.Migrations
 
             modelBuilder.Entity("QuizManagement.Data.Entities.Quiz.Question", b =>
                 {
-                    b.HasOne("QuizManagement.Data.Entities.Quiz.Chapter", "Chapter")
+                    b.HasOne("QuizManagement.Data.Entities.Quiz.SubjectChapterDetail", "SubjectChapterDetail")
                         .WithMany()
-                        .HasForeignKey("ChapterId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("QuizManagement.Data.Entities.Quiz.Subject", "Subject")
-                        .WithMany()
-                        .HasForeignKey("SubjectId")
+                        .HasForeignKey("SubjectChapterDetailId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -444,6 +456,19 @@ namespace QuizManagement.DataEF.Migrations
                     b.HasOne("QuizManagement.Data.Entities.Quiz.Question", "Question")
                         .WithMany()
                         .HasForeignKey("QuestionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("QuizManagement.Data.Entities.Quiz.SubjectChapterDetail", b =>
+                {
+                    b.HasOne("QuizManagement.Data.Entities.Quiz.Chapter", "Chapter")
+                        .WithMany()
+                        .HasForeignKey("ChapterId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("QuizManagement.Data.Entities.Quiz.Subject", "Subject")
+                        .WithMany("SubjectChapterDetails")
+                        .HasForeignKey("SubjectId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

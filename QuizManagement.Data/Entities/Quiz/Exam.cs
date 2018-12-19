@@ -9,7 +9,7 @@ using System.Text;
 namespace QuizManagement.Data.Entities.Quiz
 {
     [Table("Exams")]
-    public class Exam: DomainEntity<int>, ISwitchable, IDateTracking
+    public class Exam : DomainEntity<int>, ISwitchable, IDateTracking
     {
         public string ExamName { get; set; }
         public int Time { get; set; }
@@ -17,6 +17,6 @@ namespace QuizManagement.Data.Entities.Quiz
         public DateTime DateCreated { get; set; }
         public DateTime DateModified { get; set; }
         public Status Status { get; set; }
-
+        public virtual ICollection<QuestionExamDetail> QuestionExamDetails { get; set; }
     }
 }

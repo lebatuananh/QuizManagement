@@ -82,21 +82,21 @@ namespace QuizManagement.DataEF.Connector
                 _appDbContext.Subjects.AddRange(listSubject);
             }
 
-            if (!_appDbContext.SubjectChapterDetails.Any())
-            {
-                List<SubjectChapterDetail> listSubjectChapterDetails = new List<SubjectChapterDetail>();
-                for (int i = 6; i <= 10; i++)
-                {
-                    for (int j = 11; j <= 20; j++)
-                    {
-                        SubjectChapterDetail subjectChapterDetail = new SubjectChapterDetail()
-                            {SubjectId = i, ChapterId = j};
-                        listSubjectChapterDetails.Add(subjectChapterDetail);
-                    }
-                }
-
-                _appDbContext.SubjectChapterDetails.AddRange(listSubjectChapterDetails);
-            }
+//            if (!_appDbContext.SubjectChapterDetails.Any())
+//            {
+//                List<SubjectChapterDetail> listSubjectChapterDetails = new List<SubjectChapterDetail>();
+//                for (int i = 6; i <= 10; i++)
+//                {
+//                    for (int j = 11; j <= 20; j++)
+//                    {
+//                        SubjectChapterDetail subjectChapterDetail = new SubjectChapterDetail()
+//                            {SubjectId = i, ChapterId = j};
+//                        listSubjectChapterDetails.Add(subjectChapterDetail);
+//                    }
+//                }
+//
+//                _appDbContext.SubjectChapterDetails.AddRange(listSubjectChapterDetails);
+//            }
 
             if (!_appDbContext.Functions.Any())
             {

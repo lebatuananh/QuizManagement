@@ -58,6 +58,7 @@ var ChapterController = function () {
                     var data = response;
                     $('#hidIdM').val(data.Id);
                     $('#txtNameM').val(data.Name);
+                    $('#txtDescriptionM').val(data.Description);
                     $('#ckStatusM').prop('checked', data.Status === 1);
                     $('#modal-add-edit').modal('show');
                     core.stopLoading();
@@ -76,6 +77,7 @@ var ChapterController = function () {
                 e.preventDefault();
                 var id = $('#hidIdM').val();
                 var name = $('#txtNameM').val();
+                var description= $('#txtDescriptionM').val();
                 var status = $('#ckStatusM').prop('checked') === true ? 1 : 0;
 
                 $.ajax({
@@ -84,7 +86,8 @@ var ChapterController = function () {
                     data: {
                         Id: id,
                         Name: name,
-                        Status: status
+                        Status: status,
+                        Description:description
                     },
                     dataType: "json",
                     beforeSend: function () {

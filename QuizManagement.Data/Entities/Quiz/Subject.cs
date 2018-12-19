@@ -15,6 +15,5 @@ namespace QuizManagement.Data.Entities.Quiz
         public DateTime DateCreated { get; set; }
         public DateTime DateModified { get; set; }
         public Status Status { get; set; }
-        public virtual ICollection<SubjectChapterDetail> SubjectChapterDetails { set; get; }
     }
 }

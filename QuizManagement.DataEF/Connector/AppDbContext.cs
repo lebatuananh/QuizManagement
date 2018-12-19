@@ -42,7 +42,7 @@ namespace QuizManagement.DataEF.Connector
 
         public DbSet<Subject> Subjects { get; set; }
 
-        public DbSet<SubjectChapterDetail> SubjectChapterDetails { get; set; }
+       //public DbSet<QuestionDetail> QuestionDetails { get; set; }
 
         public DbSet<QuestionExamDetail> QuestionExamDetails { get; set; }
 

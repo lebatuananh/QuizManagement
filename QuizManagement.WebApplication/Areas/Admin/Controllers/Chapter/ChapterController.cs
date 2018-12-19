@@ -68,5 +68,12 @@ namespace QuizManagement.WebApplication.Areas.Admin.Controllers.Chapter
             _chapterService.SaveChanges();
             return new OkObjectResult(id);
         }
+
+        [HttpGet]
+        public IActionResult GetAll()
+        {
+            var model = _chapterService.GetAll();
+            return new OkObjectResult(model);
+        }
     }
 }

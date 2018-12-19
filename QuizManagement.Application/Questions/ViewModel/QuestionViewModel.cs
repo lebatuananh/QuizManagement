@@ -1,16 +1,13 @@
-﻿using QuizManagement.Data.Enum;
-using QuizManagement.Data.Interfaces;
-using QuizManagement.Infrastructure.SharedKernel;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
+using QuizManagement.Application.Chapters.ViewModel;
+using QuizManagement.Application.Subjects.ViewModel;
+using QuizManagement.Data.Enum;
 
-namespace QuizManagement.Data.Entities.Quiz
+namespace QuizManagement.Application.Questions.ViewModel
 {
-    [Table("Questions")]
-    public class Question : DomainEntity<int>, ISwitchable, IDateTracking
+    public class QuestionViewModel
     {
+        public int Id { get; set; }
         public string QuestionName { get; set; }
         public string Option1 { get; set; }
         public string Option2 { get; set; }
@@ -23,9 +20,7 @@ namespace QuizManagement.Data.Entities.Quiz
         public Status Status { get; set; }
         public int SubjectId { get; set; }
         public int ChapterId { get; set; }
-        [ForeignKey("SubjectId")]
-        public virtual Subject Subject { get; set; }
-        [ForeignKey("ChapterId")]
-        public virtual Chapter Chapter { get; set; }
+        public SubjectViewModel SubjectViewModel { get; set; }
+        public ChapterViewModel ChapterViewModel { get; set; }
     }
 }
