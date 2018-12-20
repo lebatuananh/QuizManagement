@@ -1,6 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net.Http.Headers;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
@@ -20,16 +24,18 @@ namespace QuizManagement.WebApplication.Areas.Admin.Controllers.Question
         private readonly IQuestionService _questionService;
         private readonly IAuthorizationService _authorizationService;
         private readonly SignInManager<AppUser> _signInManager;
+        private readonly IHostingEnvironment _hostingEnvironment;
 
         public QuestionController(IChapterService chapterService, ISubjectService subjectService,
             IQuestionService questionService, IAuthorizationService authorizationService,
-            SignInManager<AppUser> signInManager)
+            SignInManager<AppUser> signInManager, IHostingEnvironment hostingEnvironment)
         {
             _chapterService = chapterService;
             _subjectService = subjectService;
             _questionService = questionService;
             _authorizationService = authorizationService;
             _signInManager = signInManager;
+            _hostingEnvironment = hostingEnvironment;
         }
 
         public IActionResult Index()
@@ -96,6 +102,39 @@ namespace QuizManagement.WebApplication.Areas.Admin.Controllers.Question
         {
             var model = _questionService.GetAll();
             return new OkObjectResult(model);
+        }
+
+        [HttpPost]
+        public IActionResult ImportExcel(IList<IFormFile> files, int chapterId, int subjectId)
+        {
+            if (files != null && files.Count > 0)
+            {
+                var file = files[0];
+                var filename = ContentDispositionHeaderValue
+                    .Parse(file.ContentDisposition)
+                    .FileName
+                    .Trim('"');
+
+                string folder = _hostingEnvironment.WebRootPath + $@"\uploaded\excels";
+                if (!Directory.Exists(folder))
+                {
+                    Directory.CreateDirectory(folder);
+                }
+
+                string filePath = Path.Combine(folder, filename);
+
+                using (FileStream fs = System.IO.File.Create(filePath))
+                {
+                    file.CopyTo(fs);
+                    fs.Flush();
+                }
+
+                _questionService.ImportExcel(filePath, chapterId, subjectId);
+                _questionService.SaveChanges();
+                return new OkObjectResult(filePath);
+            }
+
+            return new NoContentResult();
         }
     }
 }

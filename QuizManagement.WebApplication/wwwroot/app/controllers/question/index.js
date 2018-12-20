@@ -79,6 +79,48 @@ var QuestionController = function () {
 
             loadDetails(that);
         });
+
+        $('#btn-import').on('click', function () {
+
+            initTreeDropDownSubjectCategory();
+            initTreeDropDownChapterCategory();
+            $('#modal-import-excel').modal('show');
+            $(".combo").css("width", "20%");
+            $('.textbox-text').css("width", "200px")
+        });
+
+        $('#btnImportExcel').on('click', function () {
+            importExcel();
+
+        });
+    }
+
+    function importExcel() {
+        var fileUpload = $("#fileInputExcel").get(0);
+        var files = fileUpload.files;
+
+        // Create FormData object  
+        var fileData = new FormData();
+        // Looping over all files and add it to FormData object  
+        for (var i = 0; i < files.length; i++) {
+            fileData.append("files", files[i]);
+        }
+        // Adding one more key to FormData object  
+        fileData.append('chapterId', $('#ddlChapterIdImportExcel').combotree('getValue'));
+        fileData.append('subjectId', $('#ddlSubjectIdImportExcel').combotree('getValue'));
+        $.ajax({
+            url: '/Admin/Question/ImportExcel',
+            type: 'POST',
+            data: fileData,
+            processData: false,  // tell jQuery not to process the data
+            contentType: false,  // tell jQuery not to set contentType
+            success: function (data) {
+                $('#modal-import-excel').modal('hide');
+                loadData();
+            }
+        });
+        return false;
+        $('#modal-import-excel').modal('hide');
     }
 
 
@@ -191,7 +233,7 @@ var QuestionController = function () {
                 $('#ddlCategorySubjectId').combotree({
                     data: arr
                 });
-                $('#ddlCategoryIdImportExcel').combotree({
+                $('#ddlSubjectIdImportExcel').combotree({
                     data: arr
                 });
                 if (isSelected != undefined) {
@@ -222,7 +264,7 @@ var QuestionController = function () {
                 $('#ddlCategoryChapterId').combotree({
                     data: arr
                 });
-                $('#ddlCategoryIdImportExcel').combotree({
+                $('#ddlChapterIdImportExcel').combotree({
                     data: arr
                 });
                 if (isSelected != undefined) {

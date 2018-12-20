@@ -1,7 +1,10 @@
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using OfficeOpenXml;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
 using QuizManagement.Application.Questions.ViewModel;
 using QuizManagement.Data.Entities.Quiz;
 using QuizManagement.Data.Enum;
@@ -69,6 +72,35 @@ namespace QuizManagement.Application.Questions
         public void SaveChanges()
         {
             _unitOfWork.Commit();
+        }
+
+        public void ImportExcel(string filePath, int chapterId, int subjectId)
+        {
+            using (var package = new ExcelPackage(new FileInfo(filePath)))
+            {
+                ExcelWorksheet workSheet = package.Workbook.Worksheets[1];
+                Question question;
+                for (int i = workSheet.Dimension.Start.Row + 1; i <= workSheet.Dimension.End.Row; i++)
+                {
+                    question = new Question();
+                    question.ChapterId = chapterId;
+                    question.SubjectId = subjectId;
+
+                    question.QuestionName = workSheet.Cells[i, 1].Value.ToString();
+
+                    question.Option1 = workSheet.Cells[i, 2].Value.ToString();
+                    question.Option2 = workSheet.Cells[i, 3].Value.ToString();
+                    question.Option3 = workSheet.Cells[i, 4].Value.ToString();
+                    question.Option4 = workSheet.Cells[i, 5].Value.ToString();
+                    question.Answer = workSheet.Cells[i, 6].Value.ToString();
+                    int.TryParse(workSheet.Cells[i, 7].Value.ToString(), out var questionScore);
+                    question.ScoreQuestion = questionScore;
+
+                    question.Status = Status.Active;
+
+                    _questionRepository.Add(question);
+                }
+            }
         }
 
         public void Update(QuestionViewModel questionViewModel)

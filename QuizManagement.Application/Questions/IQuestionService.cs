@@ -13,5 +13,6 @@ namespace QuizManagement.Application.Questions
         QuestionViewModel GetById(int id);
         void Delete(int id);
         void SaveChanges();
+        void ImportExcel(string filePath, int chapterId,int subjectId);
     }
 }
