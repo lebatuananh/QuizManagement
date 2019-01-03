@@ -89,6 +89,7 @@ var ExamController = function () {
                         $('#tbl-bill-details').html('');
                     }
                     $('#modal-detail').modal('show');
+                    $("#btnDownload").attr("href", "/Admin/Exam/GetWordDoc?id=" + that)
                     core.stopLoading();
 
                 },
