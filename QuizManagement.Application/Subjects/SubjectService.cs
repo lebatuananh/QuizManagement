@@ -45,7 +45,7 @@ namespace QuizManagement.Application.Subjects
 
         public PagedResult<SubjectViewModel> GetAllPaging(string keyword, int page, int pageSize)
         {
-            var query = _subjectRepository.FindAll(x => x.Status == Status.Active);
+            var query = _subjectRepository.FindAll();
             if (!string.IsNullOrEmpty(keyword))
                 query = query.Where(x => x.Name.Contains(keyword));
 
