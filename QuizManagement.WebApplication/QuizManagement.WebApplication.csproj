@@ -27,9 +27,4 @@
       <ProjectReference Include="..\QuizManagement.Utilities\QuizManagement.Utilities.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Areas\Admin\Models\" />
-      <Folder Include="Areas\Admin\Views\" />
-    </ItemGroup>
-
 </Project>

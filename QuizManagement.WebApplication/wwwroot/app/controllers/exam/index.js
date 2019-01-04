@@ -45,6 +45,11 @@ var ExamController = function () {
             $('#modal-detail').modal('show');
         });
 
+        $("#btn-create-random").on('click', function () {
+            resetFormMaintainance();
+            $('#add-random').modal('show');
+        });
+
         $("#ddl-show-page").on('change', function () {
             core.configs.pageSize = $(this).val();
             core.configs.pageIndex = 1;
@@ -152,6 +157,51 @@ var ExamController = function () {
 
         });
 
+        $('#_btnSave').on('click', function (e) {
+            if ($('#frmMaintainance').valid()) {
+                e.preventDefault();
+                var id = $('#_hidId').val();
+                var examName = $('#_txtExamName').val();
+                var time = $('#_txtTime').val();
+                var examiner = $('#_txtExaminer').val();
+                var questionsNumber = $('#_txtQuestionsNumber').val();
+                var subjectId = $('#_txtSubjectId').val();
+                var status = $('#_ckStatusM').prop('checked') === true ? 1 : 0;
+
+                $.ajax({
+                    type: "POST",
+                    url: "/Admin/Exam/AddRandomQuestions",
+                    data: {
+                        Id: id,
+                        ExamName: examName,
+                        Time: time,
+                        Examiner: examiner,
+                        SubjectId: subjectId,
+                        QuestionsNumber: questionsNumber,
+                        Status: status
+                    },
+                    dataType: "json",
+                    beforeSend: function () {
+                        core.startLoading();
+                    },
+                    success: function (response) {
+                        core.notify('Save order successful', 'success');
+                        $('#add-random').modal('hide');
+                        resetFormMaintainance();
+
+                        core.stopLoading();
+                        loadData(true);
+                    },
+                    error: function () {
+                        core.notify('Has an error in progress', 'error');
+                        core.stopLoading();
+                    }
+                });
+                return false;
+            }
+
+        });
+
         $('#btnAddDetail').on('click', function () {
             var template = $('#template-table-bill-details').html();
             var questions = getQuestionOptions(null);
@@ -204,6 +254,14 @@ var ExamController = function () {
         $('#txtTime').val('');
         $('#txtExaminer').val('');
         $('#tbl-bill-details').html('');
+
+        $('#_hidId').val(0);
+        $('#_txtExamName').val('');
+        $('#_txtTime').val('');
+        $('#_txtExaminer').val('');
+        $('#_txtQuestionsNumber').val('');
+        $('#_txtSubjectId').val('');
+        var status = $('#_ckStatusM').prop('checked', true);
     }
 
     function loadData(isPageChanged) {
