@@ -40,6 +40,11 @@ namespace QuizManagement.Application.Questions
             return _questionRepository.FindAll().ProjectTo<QuestionViewModel>().ToList();
         }
 
+        public List<QuestionViewModel> GetBySubject(int subjectId)
+        {
+            return _questionRepository.FindAll(x => x.SubjectId == subjectId).ProjectTo<QuestionViewModel>().ToList();
+        }
+
         public PagedResult<QuestionViewModel> GetAllPaging(int? chapterId, int? subjectId, string keyword, int page,
             int pageSize)
         {

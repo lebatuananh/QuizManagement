@@ -1,0 +1,68 @@
+﻿<div id="add-random" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog  modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">Exam detail</h4>
+            </div>
+            <div class="modal-body">
+                <div id="_horizontal-form">
+                    <form class="form-horizontal" role="form" id="_frmMaintainance">
+                        <div class="form-group">
+                            <input type="hidden" id="_hidId" value="0" />
+                            <label for="txtExamName" class="col-sm-2 control-label ">Exam name</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="txtExamName" class="form-control" id="_txtExamName">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="txtTime" class="col-sm-2 control-label ">Time</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="txtTime" class="form-control" id="_txtTime" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="txtExaminer" class="col-sm-2 control-label ">Examiner</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="txtExaminer" class="form-control" id="_txtExaminer" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="_txtSubjectId" class="col-sm-2 control-label ">Suject Id</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="_txtSubjectId" class="form-control" id="_txtSubjectId" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="txtQuestionsNumber" class="col-sm-2 control-label ">Number of Questions</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="txtQuestionsNumber" class="form-control" id="_txtQuestionsNumber" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" checked="checked" id="_ckStatusM">
+                                        <span class="text">Active.</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="button" id="_btnSave" class="btn btn-success">
+                        <i class="fa fa-floppy-o"></i>
+                    </button>
+                    <button type="button" data-dismiss="modal" class="btn btn-danger">
+                        <i class="fa fa-times" aria-hidden="true"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

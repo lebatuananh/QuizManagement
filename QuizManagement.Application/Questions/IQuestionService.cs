@@ -10,6 +10,7 @@ namespace QuizManagement.Application.Questions
         void Update(QuestionViewModel questionViewModel);
         PagedResult<QuestionViewModel> GetAllPaging(int? chapterId, int? subjectId,string keyword, int page, int pageSize);
         List<QuestionViewModel> GetAll();
+        List<QuestionViewModel> GetBySubject(int subjectId);
         QuestionViewModel GetById(int id);
         void Delete(int id);
         void SaveChanges();

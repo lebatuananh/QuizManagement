@@ -41,11 +41,14 @@
             </div>
             @if ((await AuthorizationService.AuthorizeAsync(User, "EXAM", Operations.Create)).Succeeded)
             {
-                <div class="col-md-1 col-sm-2 col-xs-12 form-group">
-                    <button class="btn btn-success" id="btn-create" type="button">
-                        <i class="fa fa-plus" aria-hidden="true"></i>
-                    </button>
-                </div>
+            <div class="col-md-3 col-sm-2 col-xs-12 form-group">
+                <button class="btn btn-success" id="btn-create" type="button">
+                    <i class="fa fa-plus" aria-hidden="true"></i>
+                </button>
+                <button class="btn btn-warning" id="btn-create-random" type="button">
+                    <i class="fa fa-plus" aria-hidden="true"></i>
+                </button>
+            </div>
             }
         </div>
     </div>
@@ -112,3 +115,4 @@
     </script>
 </div>
 @Html.Partial("_DetailModal.cshtml")
+@Html.Partial("_AddRandom.cshtml")
