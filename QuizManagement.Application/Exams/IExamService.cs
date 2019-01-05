@@ -8,6 +8,7 @@ namespace QuizManagement.Application.Exams
     public interface IExamService
     {
         void Create(ExamViewModel examViewModel);
+        ExamViewModel CreateRandom(RandomExamViewModel randomExamViewModel);
         void Update(ExamViewModel examViewModel);
         PagedResult<ExamViewModel> GetAllPaging(string keyword, int pageIndex, int pageSize);
         ExamViewModel GetById(int examId);

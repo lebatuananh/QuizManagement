@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -40,6 +41,54 @@ namespace QuizManagement.Application.Exams
                     .QuestionExamDetailViewModels);
             exam.QuestionExamDetails = examDetails;
             _examRepository.Add(exam);
+        }
+
+        public ExamViewModel CreateRandom(RandomExamViewModel model)
+        {
+            var allQuestions = _questionService.GetBySubject(model.SubjectId).ToArray();
+            bool[] checkQuestion = new bool[allQuestions.Length];
+            if (allQuestions.Length == 0)
+            {
+                throw new Exception("Question not found");
+            }
+            if (allQuestions.Length < model.QuestionsNumber)
+            {
+                throw new Exception("Too many questions");
+            }
+
+            ExamViewModel examVm = new ExamViewModel
+            {
+                ExamName = model.ExamName,
+                Time = model.Time,
+                Examiner = model.Examiner,
+                DateCreated = model.DateCreated,
+                DateModified = model.DateModified,
+                Status = model.Status,
+                QuestionExamDetailViewModels = new List<QuestionExamDetailViewModel>()
+            };
+
+            Random rand = new Random();
+            int j = -1;
+            for (int i = 0; i < model.QuestionsNumber; i++)
+            {
+                while (true)
+                {
+                    j = rand.Next(allQuestions.Length);
+                    if (!checkQuestion[j])
+                    {
+                        checkQuestion[j] = !checkQuestion[j];
+                        break;
+                    }
+                }
+                var question = new QuestionExamDetailViewModel
+                {
+                    ExamId = examVm.Id,
+                    QuestionId = allQuestions[j].Id
+                };
+                examVm.QuestionExamDetailViewModels.Add(question);
+            }
+
+            return examVm;
         }
 
         public void Update(ExamViewModel examViewModel)

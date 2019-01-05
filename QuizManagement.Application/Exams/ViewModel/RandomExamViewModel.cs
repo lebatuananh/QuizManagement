@@ -2,9 +2,9 @@
 using System;
 using System.Collections.Generic;
 
-namespace QuizManagement.WebApplication.Areas.Admin.Models
+namespace QuizManagement.Application.Exams.ViewModel
 {
-    public class RandomExamModel
+    public class RandomExamViewModel
     {
             public int Id { get; set; }
             public string ExamName { get; set; }
