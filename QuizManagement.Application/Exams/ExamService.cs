@@ -1,8 +1,13 @@
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using DocumentFormat.OpenXml;
+using DocumentFormat.OpenXml.Packaging;
+using DocumentFormat.OpenXml.Wordprocessing;
 using QuizManagement.Application.Exams.ViewModel;
+using QuizManagement.Application.Questions;
 using QuizManagement.Data.Entities.Quiz;
 using QuizManagement.Data.Enum;
 using QuizManagement.Infrastructure.Interfaces;
@@ -15,13 +20,16 @@ namespace QuizManagement.Application.Exams
         private readonly IRepository<Exam, int> _examRepository;
         private readonly IRepository<QuestionExamDetail, int> _questiondetailRepository;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IQuestionService _questionService;
 
         public ExamService(IRepository<Exam, int> examRepository,
-            IRepository<QuestionExamDetail, int> questiondetailRepository, IUnitOfWork unitOfWork)
+            IRepository<QuestionExamDetail, int> questiondetailRepository, IUnitOfWork unitOfWork
+            , IQuestionService questionService)
         {
             _examRepository = examRepository;
             _questiondetailRepository = questiondetailRepository;
             _unitOfWork = unitOfWork;
+            _questionService = questionService;
         }
 
         public void Create(ExamViewModel examViewModel)
@@ -115,6 +123,48 @@ namespace QuizManagement.Application.Exams
             var model = _questiondetailRepository.FindAll(x => x.ExamId == examId, c => c.Exam, c => c.Question)
                 .ProjectTo<QuestionExamDetailViewModel>().ToList();
             return model;
+        }
+
+        public FileStream ExportToWord(int examId)
+        {
+            var model = this.GetById(examId);
+            //  Todo Export here
+            var filePath = Path.GetTempFileName();
+            using (var wordprocessingDocument = WordprocessingDocument.Create(filePath, WordprocessingDocumentType.Document))
+            {
+                // Add a main document part. 
+                MainDocumentPart mainPart = wordprocessingDocument.AddMainDocumentPart();
+
+                // Create the document structure and add some text.
+                mainPart.Document = new Document();
+                Body body = mainPart.Document.AppendChild(new Body());
+                Paragraph para = body.AppendChild(new Paragraph());
+                Run run = para.AppendChild(new Run());
+                run.AppendChild(new Text(model.ExamName));
+                run.AppendChild(new Break());
+                run.AppendChild(new Text("Time: " + model.Time.ToString()));
+                run.AppendChild(new Break());
+                run.AppendChild(new Text("Examiner: " + model.Examiner));
+                run.AppendChild(new Break());
+                int count = 0;
+                foreach (var item in model.QuestionExamDetailViewModels)
+                {
+                    var question = _questionService.GetById(item.QuestionId);
+                    run.AppendChild(new Break());
+                    run.AppendChild(new Text(++count + ". " + question.QuestionName));
+                    run.AppendChild(new Break());
+                    run.AppendChild(new Text("A." + question.Option1));
+                    run.AppendChild(new Break());
+                    run.AppendChild(new Text("B." + question.Option2));
+                    run.AppendChild(new Break());
+                    run.AppendChild(new Text("C." + question.Option3));
+                    run.AppendChild(new Break());
+                    run.AppendChild(new Text("D." + question.Option4));
+                    run.AppendChild(new Break());
+                }
+            }
+            var fs = System.IO.File.OpenRead(filePath);
+            return fs;
         }
 
         public void SaveChanges()

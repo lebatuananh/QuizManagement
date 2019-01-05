@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.IO;
 using QuizManagement.Application.Exams.ViewModel;
 using QuizManagement.Utilities.Paging;
 
@@ -13,6 +14,7 @@ namespace QuizManagement.Application.Exams
         QuestionExamDetailViewModel CreateDetail(QuestionExamDetailViewModel questionExamDetailViewModel);
         void DeleteDetail(int examId, int questionId);
         List<QuestionExamDetailViewModel> GetExamDetails(int examId);
+        FileStream ExportToWord(int examId);
         void SaveChanges();
 
     }
